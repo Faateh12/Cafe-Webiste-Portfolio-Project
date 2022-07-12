@@ -1,0 +1,52 @@
+{% extends "bootstrap/base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<title>Café Finder</title>
+{% endblock %}
+
+{% block content %}
+<body>
+<nav class="navbar navbar-expand-lg navbar-light justify-content-between">
+  <a class="navbar-brand" href="/">
+    <img src="static/images/coffee.png" width="50" height="50" alt="">
+  </a>
+   <ul class="navbar-nav ml-auto">
+       <li class="nav-item">
+           <a class="nav-link" href="/add">
+               <button class="btn btn-dark">Add Café</button>
+           </a>
+       </li>
+    </ul>
+</nav>
+
+<h1 style="text-align: center; margin-bottom: 40px;">Café Finder</h1>
+    {% for cafe in all_cafes%}
+                <div class="card col-lg-3 border-dark" style="width: 25 rem; padding-top: 30px; padding-bottom: 20px; margin-bottom: 60px; margin-left: 110px; display: inline-block; text-align: center;">
+                    <img class="card-img-top" src="{{ cafe.img_url }}" alt="Card image cap" style="width: 340px; height: 300px; padding-bottom: 20px;">
+                    <div class="card-body">
+                        <h5 class="card-title" style="margin-bottom: 30px;"><b>{{ cafe.name }}</b></h5>
+                        <p class="card-text">📍 {{ cafe.location }}</p>
+                        <p class="card-text">🪑 {{ cafe.seats }}</p>
+                        <div style="display: block;">
+                            {% if cafe.has_wifi == "TRUE": %}
+                                <img src="static/images/wifi-logo.png" style="width: 20px; height: 15px; margin-right: 7px;">
+                            {% endif %}
+                            {% if cafe.has_sockets == "TRUE": %}
+                                <img src="static/images/plug.png" style="width: 15px; height: 19px; margin-right: 7px;">
+                            {% endif %}
+                            {% if cafe.has_toilet == "TRUE": %}
+                                <img src="static/images/toilet.png" style="width: 20px; height: 19px; margin-right: 7px;">
+                            {% endif %}
+                        </div>
+                        <a href="{{ cafe.map_url }}" class="btn btn-primary" style="margin-top: 15px; display: inline-block;">Directions</a>
+                        <div>
+                        <a href="{{ url_for('delete', cafe_id=cafe.id) }}" class="btn btn-danger" style="margin-top: 15px;">Delete</a>
+                        </div>
+                    </div>
+                </div>
+    {% endfor %}
+
+</body>
+{% endblock %}
+
